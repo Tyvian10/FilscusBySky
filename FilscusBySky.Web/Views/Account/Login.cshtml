@@ -1,0 +1,33 @@
+@{
+    ViewData["Title"] = "Inloggen";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2>Inloggen</h2>
+
+        <form method="post">
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label>E-mailadres</label>
+                <input type="email" name="email" class="form-control" required />
+            </div>
+
+            <div class="mb-3">
+                <label>Wachtwoord</label>
+                <input type="password" name="password" class="form-control" required />
+            </div>
+
+            <div class="mb-3 form-check">
+                <input type="checkbox" name="rememberMe" class="form-check-input" />
+                <label class="form-check-label">Onthoud mij</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Inloggen</button>
+            <a asp-action="Register" class="ms-3">Nog geen account? Registreren</a>
+        </form>
+    </div>
+</div>
