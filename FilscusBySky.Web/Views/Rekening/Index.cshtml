@@ -1,0 +1,47 @@
+@model IEnumerable<FilscusBySky.Models.Rekening>
+    @{
+    ViewData["Title"] = "Mijn Rekeningen";
+    }
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Mijn Rekeningen</h2>
+        <a asp-action="Toevoegen" class="btn btn-primary">+ Rekening toevoegen</a>
+    </div>
+
+    @if (!Model.Any())
+{
+    <div class="alert alert-info">
+        Je hebt nog geen rekeningen. Voeg er een toe!
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var rekening in Model)
+        {
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@rekening.Naam</h5>
+                    <p class="card-text fs-4">
+                        € @rekening.Saldo.ToString("F2")
+                    </p>
+                    <a asp-controller="Transactie" asp-action="Index"
+                       asp-route-rekeningId="@rekening.Id"
+                       class="btn btn-outline-primary btn-sm">
+                        Transacties
+                    </a>
+                    <form method="post" asp-action="Verwijderen"
+                          asp-route-id="@rekening.Id" class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-outline-danger btn-sm"
+                                onclick="return confirm('Rekening verwijderen?')">
+                            Verwijderen
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+}

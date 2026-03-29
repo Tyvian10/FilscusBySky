@@ -1,0 +1,28 @@
+@{
+    ViewData["Title"] = "Rekening toevoegen";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2>Rekening toevoegen</h2>
+
+        <form method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="mb-3">
+                <label>Naam van de rekening</label>
+                <input type="text" name="naam" class="form-control"
+                       placeholder="bv. Spaarrekening" required />
+            </div>
+
+            <div class="mb-3">
+                <label>Huidig saldo (€)</label>
+                <input type="number" name="saldo" class="form-control"
+                       step="0.01" value="0" required />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Toevoegen</button>
+            <a asp-action="Index" class="btn btn-outline-secondary ms-2">Annuleren</a>
+        </form>
+    </div>
+</div>

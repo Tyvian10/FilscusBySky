@@ -1,0 +1,73 @@
+@model IEnumerable<FilscusBySky.Models.Transactie>
+    @{
+    var rekening = ViewBag.Rekening as FilscusBySky.Models.Rekening;
+    ViewData["Title"] = $"Transacties - {rekening?.Naam}";
+    }
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h2>@rekening?.Naam</h2>
+            <span class="fs-4 fw-bold @(rekening?.Saldo >= 0 ? "text-success" : "text-danger")">
+                € @rekening?.Saldo.ToString("F2")
+            </span>
+        </div>
+        <div>
+            <a asp-action="Toevoegen" asp-route-rekeningId="@rekening?.Id"
+               class="btn btn-primary">+ Transactie toevoegen</a>
+            <a asp-controller="Rekening" asp-action="Index"
+               class="btn btn-outline-secondary ms-2">Terug</a>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+{
+    <div class="alert alert-info">
+        Nog geen transacties. Voeg er een toe!
+    </div>
+}
+else
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Datum</th>
+                <th>Beschrijving</th>
+                <th>Categorie</th>
+                <th>Type</th>
+                <th>Bedrag</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var t in Model)
+            {
+            <tr>
+                <td>@t.Datum.ToString("dd/MM/yyyy")</td>
+                <td>@t.Beschrijving</td>
+                <td>@t.Categorie</td>
+                <td>
+                    <span class="badge @(t.Type == FilscusBySky.Models.TransactieType.Inkomen ? "bg-success" : "bg-danger")">
+                        @t.Type
+                    </span>
+                </td>
+                <td class="@(t.Type == FilscusBySky.Models.TransactieType.Inkomen ? "text-success" : "text-danger")">
+                    @(t.Type == FilscusBySky.Models.TransactieType.Inkomen ? "+" : "-")
+                    € @t.Bedrag.ToString("F2")
+                </td>
+                <td>
+                    <form method="post" asp-action="Verwijderen"
+                          asp-route-id="@t.Id"
+                          asp-route-rekeningId="@rekening?.Id"
+                          class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-outline-danger btn-sm"
+                                onclick="return confirm('Transactie verwijderen?')">
+                            Verwijderen
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}

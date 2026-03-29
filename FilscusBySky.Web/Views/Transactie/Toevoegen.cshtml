@@ -1,0 +1,58 @@
+@{
+    ViewData["Title"] = "Transactie toevoegen";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2>Transactie toevoegen</h2>
+        <p class="text-muted">Rekening: <strong>@ViewBag.RekeningNaam</strong></p>
+
+        <form method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="rekeningId" value="@ViewBag.RekeningId" />
+
+            <div class="mb-3">
+                <label>Beschrijving</label>
+                <input type="text" name="beschrijving" class="form-control"
+                       placeholder="bv. Huurkosten" required />
+            </div>
+
+            <div class="mb-3">
+                <label>Bedrag (€)</label>
+                <input type="number" name="bedrag" class="form-control"
+                       step="0.01" min="0.01" required />
+            </div>
+
+            <div class="mb-3">
+                <label>Datum</label>
+                <input type="date" name="datum" class="form-control"
+                       value="@DateTime.Now.ToString("yyyy-MM-dd")" required />
+            </div>
+
+            <div class="mb-3">
+                <label>Type</label>
+                <select name="type" class="form-select">
+                    <option value="0">Uitgave</option>
+                    <option value="1">Inkomen</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Categorie</label>
+                <select name="categorie" class="form-select">
+                    <option>Huur</option>
+                    <option>Voeding</option>
+                    <option>Transport</option>
+                    <option>Gezondheid</option>
+                    <option>Entertainment</option>
+                    <option>Loon</option>
+                    <option>Overig</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Toevoegen</button>
+            <a asp-action="Index" asp-route-rekeningId="@ViewBag.RekeningId"
+               class="btn btn-outline-secondary ms-2">Annuleren</a>
+        </form>
+    </div>
+</div>
