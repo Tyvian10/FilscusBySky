@@ -1,0 +1,72 @@
+﻿@model FilscusBySky.Web.Models.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h2>Welkom, @Model.GebruikersNaam! 👋</h2>
+
+<div class="row mt-4">
+    <div class="col-md-3 mb-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h6 class="card-title">Totaal saldo</h6>
+                <p class="card-text fs-4">€ @Model.TotaalSaldo.ToString("F2")</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h6 class="card-title">Totaal inkomen</h6>
+                <p class="card-text fs-4">€ @Model.TotaalInkomen.ToString("F2")</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-white bg-danger">
+            <div class="card-body">
+                <h6 class="card-title">Totaal uitgaven</h6>
+                <p class="card-text fs-4">€ @Model.TotaalUitgaven.ToString("F2")</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-white @(Model.Resultaat >= 0 ? "bg-success" : "bg-danger")">
+            <div class="card-body">
+                <h6 class="card-title">Resultaat</h6>
+                <p class="card-text fs-4">€ @Model.Resultaat.ToString("F2")</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h4 class="mt-4">Mijn rekeningen</h4>
+@if (!Model.Rekeningen.Any())
+{
+<div class="alert alert-info">
+    Nog geen rekeningen. <a asp-controller="Rekening" asp-action="Toevoegen">Voeg er een toe!</a>
+</div>
+}
+else
+{
+<div class="row">
+    @foreach (var rekening in Model.Rekeningen)
+        {
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@rekening.Naam</h5>
+                <p class="card-text fs-5 @(rekening.Saldo >= 0 ? "text-success" : "text-danger")">
+                    € @rekening.Saldo.ToString("F2")
+                </p>
+                <a asp-controller="Transactie" asp-action="Index"
+                   asp-route-rekeningId="@rekening.Id"
+                   class="btn btn-outline-primary btn-sm">
+                    Bekijk transacties
+                </a>
+            </div>
+        </div>
+    </div>
+        }
+</div>
+}

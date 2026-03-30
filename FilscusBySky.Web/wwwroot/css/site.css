@@ -1,31 +1,197 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap');
+
+:root {
+    --ro-blauw: #154273;
+    --ro-blauw-hover: #0e2f52;
+    --ro-geel: #F9C000;
+    --ro-wit: #ffffff;
+    --ro-lichtgrijs: #f3f3f3;
+    --ro-tekst: #1a1a1a;
+}
+
+/* Algemeen */
 html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    font-family: 'Source Sans 3', Arial, sans-serif;
+    font-size: 16px;
+    color: var(--ro-tekst);
+    background-color: var(--ro-wit);
+    margin-bottom: 80px;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+/* ===== HEADER MET LOGO ===== */
+.ro-header {
+    background-color: var(--ro-wit);
+    border-bottom: 1px solid #d4d4d4;
+    padding: 1rem 0;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.ro-logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
+
+.ro-logo-balk {
+    width: 6px;
+    height: 48px;
+    background-color: var(--ro-blauw);
+}
+
+.ro-logo-tekst {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ro-blauw);
+    letter-spacing: -0.5px;
+}
+
+/* ===== NAVIGATIE ===== */
+.ro-nav {
+    background-color: var(--ro-blauw);
+
+}
+
+.ro-nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+    .ro-nav-list li a,
+    .ro-nav-logout {
+        display: block;
+        padding: 0.9rem 1.2rem;
+        color: var(--ro-wit);
+        font-weight: 600;
+        font-size: 1rem;
+        text-decoration: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-family: 'Source Sans 3', Arial, sans-serif;
+    }
+
+        .ro-nav-list li a:hover,
+        .ro-nav-logout:hover {
+            background-color: var(--ro-blauw-hover);
+            color: var(--ro-wit);
+        }
+.ro-nav-right {
+    margin-left: auto;
+}
+
+/* ===== INHOUD ===== */
+.ro-content {
+    margin-top: 2rem;
+}
+
+/* ===== TITELS ===== */
+h1, h2, h3, h4, h5 {
+    font-weight: 700;
+    color: var(--ro-blauw);
+}
+
+/* ===== KNOPPEN ===== */
+.btn-primary {
+    background-color: var(--ro-blauw);
+    border-color: var(--ro-blauw);
+    border-radius: 0;
+    font-weight: 600;
+}
+
+    .btn-primary:hover {
+        background-color: var(--ro-blauw-hover);
+        border-color: var(--ro-blauw-hover);
+    }
+
+.btn-outline-primary {
+    color: var(--ro-blauw);
+    border-color: var(--ro-blauw);
+    border-radius: 0;
+    font-weight: 600;
+}
+
+    .btn-outline-primary:hover {
+        background-color: var(--ro-blauw);
+        border-color: var(--ro-blauw);
+    }
+
+.btn-outline-danger,
+.btn-outline-secondary {
+    border-radius: 0;
+}
+
+/* ===== KAARTEN ===== */
+.card {
+    border-radius: 0;
+    border: 1px solid #d4d4d4;
+}
+
+.card-title {
+    font-weight: 700;
+}
+
+/* ===== FORMULIEREN ===== */
+.form-control, .form-select {
+    border-radius: 0;
+    border: 2px solid #666;
+}
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--ro-blauw);
+        box-shadow: 0 0 0 0.2rem rgba(21, 66, 115, 0.25);
+    }
+
+label {
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+}
+
+/* ===== TABEL ===== */
+.table thead {
+    background-color: var(--ro-blauw);
+    color: var(--ro-wit);
+}
+
+    .table thead th {
+        font-weight: 600;
+        border: none;
+    }
+
+/* ===== LINKS ===== */
+a {
+    color: var(--ro-blauw);
+}
+
+    a:hover {
+        color: var(--ro-blauw-hover);
+    }
+
+/* ===== FOOTER ===== */
+.ro-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--ro-blauw);
+    color: var(--ro-wit);
+    padding: 1rem 0;
+}
+
+    .ro-footer p {
+        margin: 0;
+        color: var(--ro-wit);
+    }
+
+    .ro-footer a {
+        color: var(--ro-geel);
+    }
+
+        .ro-footer a:hover {
+            color: var(--ro-wit);
+        }
