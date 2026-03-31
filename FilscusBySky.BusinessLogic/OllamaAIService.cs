@@ -52,15 +52,18 @@ public class OllamaAIService : IAIService
             var response = await _httpClient.PostAsync(_ollamaUrl, content);
 
             if (!response.IsSuccessStatusCode)
-                return FallbackAdvies(rekening, totalInkomen, totalUitgaven);
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                return $"HTTP {response.StatusCode}: {error}";
+            }
 
             var result = await response.Content.ReadFromJsonAsync<JsonElement>();
             return result.GetProperty("response").GetString()
                 ?? FallbackAdvies(rekening, totalInkomen, totalUitgaven);
         }
-        catch
+        catch (Exception ex)
         {
-            return FallbackAdvies(rekening, totalInkomen, totalUitgaven);
+            return $"AI fout: {ex.Message} | URL: {_ollamaUrl} | BaseAddress: {_httpClient.BaseAddress}";
         }
     }
 
