@@ -53,11 +53,11 @@ public class GrafiekController : Controller
                         && t.Datum.Year == m.Year)
                     .Sum(t => t.Bedrag)).ToList(),
 
-            Categorieën = transacties
-                .Where(t => t.Type == TransactieType.Uitgave)
-                .GroupBy(t => t.Categorie)
-                .Select(g => g.Key)
-                .ToList(),
+            Categorieen = transacties
+                    .Where(t => t.Type == TransactieType.Uitgave)
+                    .GroupBy(t => t.Categorie)
+                    .Select(g => g.Key)
+                    .ToList(),
 
             UitgavenPerCategorie = transacties
                 .Where(t => t.Type == TransactieType.Uitgave)

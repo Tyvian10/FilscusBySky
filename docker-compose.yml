@@ -1,0 +1,36 @@
+
+
+services:
+
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=FilscusBySkyDb;User Id=sa;Password=FilscusBySky123!;TrustServerCertificate=True
+      - OllamaUrl=http://ollama:11434
+    depends_on:
+      - sqlserver
+      - ollama
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=FilscusBySky123!
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqldata:/var/lib/sqlserver/data
+
+  ollama:
+    image: ollama/ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+
+volumes:
+  sqldata:
+  ollama_data:

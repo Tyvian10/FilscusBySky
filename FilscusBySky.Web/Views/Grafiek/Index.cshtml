@@ -30,7 +30,7 @@
         const maanden = @Json.Serialize(Model.Maanden);
         const inkomsten = @Json.Serialize(Model.Inkomsten);
         const uitgaven = @Json.Serialize(Model.Uitgaven);
-        const categorieën = @Json.Serialize(Model.Categorieën);
+        const categorieen = @Json.Serialize(Model.Categorieen);
         const uitPerCat = @Json.Serialize(Model.UitgavenPerCategorie);
 
         // Staafdiagram
@@ -63,7 +63,7 @@
         new Chart(document.getElementById('taartGrafiek'), {
             type: 'doughnut',
             data: {
-                labels: categorieën,
+                labels: categorieen,
                 datasets: [{
                     data: uitPerCat,
                     backgroundColor: [
