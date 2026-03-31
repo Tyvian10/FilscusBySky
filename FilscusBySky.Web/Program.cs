@@ -2,6 +2,7 @@ using FilscusBySky.Data;
 using FilscusBySky.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using FilscusBySky.BusinessLogic;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,10 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddDefaultTokenProviders();
 
 builder.Services.AddControllersWithViews();
+
+// Schakelaar: verander naar OllamaAIService zodra RAM geïnstalleerd is
+builder.Services.AddHttpClient<IAIService, OllamaAIService>();
+// builder.Services.AddSingleton<IAIService, StubAIService>();
 
 var app = builder.Build();
 

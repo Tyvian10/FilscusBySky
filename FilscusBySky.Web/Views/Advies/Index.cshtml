@@ -1,0 +1,38 @@
+@model IEnumerable<FilscusBySky.Models.Rekening>
+    @{
+    ViewData["Title"] = "AI-advies";
+    }
+
+    <h2>AI-advies</h2>
+    <p class="text-muted">Kies een rekening om een financieel advies te ontvangen.</p>
+
+    <form method="post" asp-action="Genereer">
+        @Html.AntiForgeryToken()
+        <div class="row align-items-end">
+            <div class="col-md-4 mb-3">
+                <label>Rekening</label>
+                <select name="rekeningId" class="form-select">
+                    @foreach (var rekening in Model)
+                {
+                    <option value="@rekening.Id">@rekening.Naam</option>
+                }
+                </select>
+            </div>
+            <div class="col-md-2 mb-3">
+                <button type="submit" class="btn btn-primary w-100">
+                    Genereer advies
+                </button>
+            </div>
+        </div>
+    </form>
+
+    @if (ViewBag.Advies != null)
+{
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">Advies voor @ViewBag.RekeningNaam</h5>
+            <hr />
+            <p style="white-space: pre-line;">@ViewBag.Advies</p>
+        </div>
+    </div>
+}
