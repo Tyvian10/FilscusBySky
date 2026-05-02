@@ -1,12 +1,10 @@
-using FilscusBySky.Data;
+
 using FilscusBySky.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using FilscusBySky.BusinessLogic;
 using FilscusBySky.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Database
@@ -23,7 +21,10 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders();
 
+builder.Services.AddControllers();
+
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<EmailService>();
 
 // Schakelaar: verander naar OllamaAIService zodra RAM geïnstalleerd is
 builder.Services.AddHttpClient<IAIService, OllamaAIService>((serviceProvider, client) =>
@@ -41,6 +42,7 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
+
 }
 
 app.UseHttpsRedirection();
@@ -54,6 +56,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
+    app.MapControllers();
 
 // Automatisch migrations uitvoeren bij opstarten
 using (var scope = app.Services.CreateScope())

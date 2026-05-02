@@ -53,6 +53,12 @@ namespace FilscusBySky.Data.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<int>("MeldingDag")
+                        .HasColumnType("int");
+
+                    b.Property<TimeSpan>("MeldingTijd")
+                        .HasColumnType("time");
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -95,6 +101,73 @@ namespace FilscusBySky.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("FilscusBySky.Models.Domiciliatie", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Bedrag")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Categorie")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("Dag")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActief")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Naam")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("RekeningId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RekeningId");
+
+                    b.ToTable("Domiciliaties");
+                });
+
+            modelBuilder.Entity("FilscusBySky.Models.Melding", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("AangemaaktOp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Bericht")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsGelezen")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Meldingen");
                 });
 
             modelBuilder.Entity("FilscusBySky.Models.Rekening", b =>
@@ -296,6 +369,28 @@ namespace FilscusBySky.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("FilscusBySky.Models.Domiciliatie", b =>
+                {
+                    b.HasOne("FilscusBySky.Models.Rekening", "Rekening")
+                        .WithMany()
+                        .HasForeignKey("RekeningId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Rekening");
+                });
+
+            modelBuilder.Entity("FilscusBySky.Models.Melding", b =>
+                {
+                    b.HasOne("FilscusBySky.Models.ApplicationUser", "User")
+                        .WithMany("Meldingen")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("FilscusBySky.Models.Rekening", b =>
                 {
                     b.HasOne("FilscusBySky.Models.ApplicationUser", "User")
@@ -371,6 +466,8 @@ namespace FilscusBySky.Data.Migrations
 
             modelBuilder.Entity("FilscusBySky.Models.ApplicationUser", b =>
                 {
+                    b.Navigation("Meldingen");
+
                     b.Navigation("Rekeningen");
                 });
 

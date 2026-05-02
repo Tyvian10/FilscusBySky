@@ -5,20 +5,77 @@
 
 <h2>Grafieken</h2>
 
+<form method="get" class="mb-4">
+    <div class="row align-items-end">
+        <div class="col-md-4">
+            <label>Filter op rekening</label>
+            <select name="rekeningId" class="form-select" onchange="this.form.submit()">
+                <option value="">Alle rekeningen</option>
+                @foreach (var rekening in Model.Rekeningen)
+                {
+                    <option value="@rekening.Id"
+                         selected="@(Model.GeselecteerdeRekeningId == rekening.Id ? "selected" : null)">
+                         @rekening.Naam
+                    </option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary">Filteren</button>
+        </div>
+        @if (Model.GeselecteerdeRekeningId != null)
+        {
+            <div class="col-md-2">
+                <a href="/Grafiek" class="btn btn-outline-secondary">Alle rekeningen</a>
+            </div>
+        }
+    </div>
+</form>
+
 <div class="row mt-4">
-    <div class="col-md-8 mb-4">
+    <div class="col-md-6 mb-4">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Inkomsten vs Uitgaven (laatste 6 maanden)</h5>
+                <h5 class="card-title">Netto groei per maand</h5>
                 <canvas id="staafGrafiek"></canvas>
             </div>
         </div>
     </div>
-    <div class="col-md-4 mb-4">
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Inkomsten vs Uitgaven</h5>
+                <canvas id="lijnGrafiek"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Uitgaven per categorie</h5>
                 <canvas id="taartGrafiek"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Spaarpercentage per maand</h5>
+                <canvas id="spaarGrafiek"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Deze maand vs vorige maand</h5>
+                <canvas id="vergelijkGrafiek"></canvas>
             </div>
         </div>
     </div>
@@ -30,49 +87,68 @@
         const maanden = @Json.Serialize(Model.Maanden);
         const inkomsten = @Json.Serialize(Model.Inkomsten);
         const uitgaven = @Json.Serialize(Model.Uitgaven);
+        const netto = @Json.Serialize(Model.NettoResultaat);
+        const spaar = @Json.Serialize(Model.Spaarpercentage);
         const categorieen = @Json.Serialize(Model.Categorieen);
         const uitPerCat = @Json.Serialize(Model.UitgavenPerCategorie);
 
-        // Staafdiagram
+        const nettoKleuren = netto.map(v => v >= 0
+            ? 'rgba(21, 115, 66, 0.8)'
+            : 'rgba(220, 53, 69, 0.8)');
+
         new Chart(document.getElementById('staafGrafiek'), {
             type: 'bar',
             data: {
                 labels: maanden,
-                datasets: [
-                    {
-                        label: 'Inkomsten',
-                        data: inkomsten,
-                        backgroundColor: 'rgba(21, 66, 115, 0.8)'
-                    },
-                    {
-                        label: 'Uitgaven',
-                        data: uitgaven,
-                        backgroundColor: 'rgba(220, 53, 69, 0.8)'
-                    }
-                ]
+                datasets: [{ label: 'Netto resultaat', data: netto, backgroundColor: nettoKleuren }]
             },
             options: {
                 responsive: true,
-                scales: {
-                    y: { beginAtZero: true }
-                }
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true, ticks: { callback: value => 'EUR ' + value } } }
             }
         });
 
-        // Taartdiagram
+        new Chart(document.getElementById('lijnGrafiek'), {
+            type: 'line',
+            data: {
+                labels: maanden,
+                datasets: [
+                    { label: 'Inkomsten', data: inkomsten, borderColor: 'rgba(21, 66, 115, 0.8)', backgroundColor: 'rgba(21, 66, 115, 0.1)', fill: true, tension: 0.3 },
+                    { label: 'Uitgaven', data: uitgaven, borderColor: 'rgba(220, 53, 69, 0.8)', backgroundColor: 'rgba(220, 53, 69, 0.1)', fill: true, tension: 0.3 }
+                ]
+            },
+            options: { responsive: true, scales: { y: { beginAtZero: true } } }
+        });
+
         new Chart(document.getElementById('taartGrafiek'), {
             type: 'doughnut',
             data: {
                 labels: categorieen,
-                datasets: [{
-                    data: uitPerCat,
-                    backgroundColor: [
-                        '#154273', '#dc3545', '#ffc107',
-                        '#28a745', '#17a2b8', '#6f42c1', '#fd7e14'
-                    ]
-                }]
+                datasets: [{ data: uitPerCat, backgroundColor: ['#154273', '#dc3545', '#ffc107', '#28a745', '#17a2b8', '#6f42c1', '#fd7e14'] }]
             },
             options: { responsive: true }
+        });
+
+        new Chart(document.getElementById('spaarGrafiek'), {
+            type: 'line',
+            data: {
+                labels: maanden,
+                datasets: [{ label: 'Spaarpercentage %', data: spaar, borderColor: 'rgba(21, 66, 115, 0.8)', backgroundColor: 'rgba(21, 66, 115, 0.1)', fill: true, tension: 0.3 }]
+            },
+            options: { responsive: true, scales: { y: { beginAtZero: true, ticks: { callback: value => value + '%' } } } }
+        });
+
+        new Chart(document.getElementById('vergelijkGrafiek'), {
+            type: 'bar',
+            data: {
+                labels: ['Inkomsten', 'Uitgaven'],
+                datasets: [
+                    { label: 'Deze maand', data: [@Model.InkomstenDezeMaand, @Model.UitgavenDezeMaand], backgroundColor: 'rgba(21, 66, 115, 0.8)' },
+                    { label: 'Vorige maand', data: [@Model.InkomstenVorigeMaand, @Model.UitgavenVorigeMaand], backgroundColor: 'rgba(21, 66, 115, 0.3)' }
+                ]
+            },
+            options: { responsive: true, scales: { y: { beginAtZero: true } } }
         });
     </script>
 }

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilscusBySky.BusinessLogic"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilscusBySky.Web", "FilscusBySky.Web\FilscusBySky.Web.csproj", "{6E5083F4-2C42-4DFA-9698-6E9652CAAA2B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilscusBySky.MAUI", "FilscusBySky.MAUI\FilscusBySky.MAUI.csproj", "{7F71500A-3420-45A6-96FA-3319A9749485}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,18 @@ Global
 		{6E5083F4-2C42-4DFA-9698-6E9652CAAA2B}.Release|x64.Build.0 = Release|Any CPU
 		{6E5083F4-2C42-4DFA-9698-6E9652CAAA2B}.Release|x86.ActiveCfg = Release|Any CPU
 		{6E5083F4-2C42-4DFA-9698-6E9652CAAA2B}.Release|x86.Build.0 = Release|Any CPU
+		{7F71500A-3420-45A6-96FA-3319A9749485}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F71500A-3420-45A6-96FA-3319A9749485}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F71500A-3420-45A6-96FA-3319A9749485}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7F71500A-3420-45A6-96FA-3319A9749485}.Debug|x64.Build.0 = Debug|Any CPU
+		{7F71500A-3420-45A6-96FA-3319A9749485}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7F71500A-3420-45A6-96FA-3319A9749485}.Debug|x86.Build.0 = Debug|Any CPU
+		{7F71500A-3420-45A6-96FA-3319A9749485}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F71500A-3420-45A6-96FA-3319A9749485}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F71500A-3420-45A6-96FA-3319A9749485}.Release|x64.ActiveCfg = Release|Any CPU
+		{7F71500A-3420-45A6-96FA-3319A9749485}.Release|x64.Build.0 = Release|Any CPU
+		{7F71500A-3420-45A6-96FA-3319A9749485}.Release|x86.ActiveCfg = Release|Any CPU
+		{7F71500A-3420-45A6-96FA-3319A9749485}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

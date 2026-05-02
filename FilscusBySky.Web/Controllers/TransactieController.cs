@@ -57,8 +57,8 @@ public class TransactieController : Controller
     // POST: /Transactie/Toevoegen
     [HttpPost]
     public async Task<IActionResult> Toevoegen(int rekeningId, string beschrijving,
-                                               decimal bedrag, TransactieType type,
-                                               string categorie)
+                                            decimal bedrag, TransactieType type,
+                                            string categorie, DateTime datum)
     {
         var userId = _userManager.GetUserId(User);
         var rekening = await _context.Rekeningen
@@ -74,10 +74,9 @@ public class TransactieController : Controller
             Type = type,
             Categorie = categorie,
             RekeningId = rekeningId,
-            Datum = DateTime.UtcNow
+            Datum = datum
         };
 
-        // Saldo aanpassen
         if (type == TransactieType.Inkomen)
             rekening.Saldo += bedrag;
         else

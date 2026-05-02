@@ -1,0 +1,66 @@
+@model IEnumerable<FilscusBySky.Models.Domiciliatie>
+    @{
+    ViewData["Title"] = "Domiciliaties";
+    }
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Domiciliaties</h2>
+        <a asp-action="Toevoegen" class="btn btn-primary">+ Domiciliatie toevoegen</a>
+    </div>
+
+    @if (!Model.Any())
+{
+    <div class="alert alert-info">
+        Nog geen domiciliaties. Voeg er een toe!
+    </div>
+}
+else
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Naam</th>
+                <th>Rekening</th>
+                <th>Bedrag</th>
+                <th>Categorie</th>
+                <th>Dag</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var d in Model)
+            {
+            <tr class="@(d.IsActief ? "" : "table-secondary")">
+                <td>@d.Naam</td>
+                <td>@d.Rekening?.Naam</td>
+                <td>€ @d.Bedrag.ToString("F2")</td>
+                <td>@d.Categorie</td>
+                <td>Dag @d.Dag</td>
+                <td>
+                    <span class="badge @(d.IsActief ? "bg-success" : "bg-secondary")">
+                        @(d.IsActief ? "Actief" : "Inactief")
+                    </span>
+                </td>
+                <td>
+                    <form method="post" asp-action="ToggleActief"
+                          asp-route-id="@d.Id" class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-outline-secondary btn-sm">
+                            @(d.IsActief ? "Deactiveren" : "Activeren")
+                        </button>
+                    </form>
+                    <form method="post" asp-action="Verwijderen"
+                          asp-route-id="@d.Id" class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-outline-danger btn-sm"
+                                onclick="return confirm('Domiciliatie verwijderen?')">
+                            Verwijderen
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FilscusBySky.MAUI.Views.TransactiesPage"
+             Title="Transacties">
+    <ContentPage.Content>
+        <StackLayout Padding="16">
+            <ActivityIndicator IsRunning="{Binding IsLoading}"
+                               IsVisible="{Binding IsLoading}"
+                               Color="#154273" />
+            <CollectionView ItemsSource="{Binding Transacties}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Margin="0,8" Padding="16"
+                               BorderColor="#d4d4d4" CornerRadius="0">
+                            <StackLayout>
+                                <Label Text="{Binding Beschrijving}"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#154273" />
+                                <Label Text="{Binding Datum}"
+                                       FontSize="13"
+                                       TextColor="#666" />
+                                <Label Text="{Binding Bedrag}"
+                                       FontSize="16" />
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

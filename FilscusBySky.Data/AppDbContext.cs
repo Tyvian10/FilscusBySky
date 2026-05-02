@@ -10,7 +10,9 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<Rekening> Rekeningen => Set<Rekening>();
     public DbSet<Transactie> Transacties => Set<Transactie>();
-
+    public DbSet<Melding> Meldingen => Set<Melding>();
+    public DbSet<Domiciliatie> Domiciliaties => Set<Domiciliatie>();
+    public DbSet<Categorie> Categorieen => Set<Categorie>();
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -23,5 +25,16 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<Transactie>()
             .Property(t => t.Bedrag)
             .HasPrecision(18, 2);
+
+        builder.Entity<Domiciliatie>()
+            .Property(d => d.Bedrag)
+            .HasPrecision(18, 2);
+
+        builder.Entity<Categorie>()
+    .HasOne(c => c.User)
+    .WithMany(u => u.Categorieen)
+    .HasForeignKey(c => c.UserId)
+    .OnDelete(DeleteBehavior.Cascade)
+    .IsRequired(false);
     }
 }
